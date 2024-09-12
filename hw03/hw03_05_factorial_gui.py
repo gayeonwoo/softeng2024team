@@ -27,6 +27,7 @@ def main():
 
     global ent_num
     ent_num=tk.Entry(master=frame,width=5)
+    
     lbl_f=tk.Label(master=frame,text="!")
     btn_convert=tk.Button(master=frame,
                           text="=",
@@ -35,9 +36,7 @@ def main():
     lbl_output=tk.Label(master=frame)
 
     lbl_b.grid(row=0,padx=10)
-
     frame.grid(row=1,padx=10,pady=20)
-
     ent_num.grid(row=0,column=0)
     lbl_f.grid(row=0,column=1)
     btn_convert.grid(row=0,column=2)
