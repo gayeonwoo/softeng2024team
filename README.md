@@ -1,6 +1,6 @@
 # softeng2024team
 hw03_01_oddeven_gui.py  
-: 짝수판별함수를 만들어 짝수판별프로그램을 gui에 구현  
+: 홀수, 짝수 판별함수를 만들어 판별프로그램을 gui에 구현  
 hw03_02_temptoconv_gui.py  
 : 화씨, 섭씨 온도를 서로 변환하는 함수를 만들어 gui에 변환프로그램을 구현  
 hw03_03_primenum_gui.py  
