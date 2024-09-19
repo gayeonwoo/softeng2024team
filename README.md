@@ -14,6 +14,6 @@ hw03_05_factorial_gui.py
 hw03_06_sum100_gui.py  
 : 짝수판별함수를 만들어 짝수들의 합 계산을 gui에 구현  
 
-# hw04
+# hw05
 라즈베리파이 세팅
 : hello.py 쳤을 때 hello, world! 나오게 구현
