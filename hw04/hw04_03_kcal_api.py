@@ -37,10 +37,10 @@ def hello():
     <form id="form_id" action="javascript:post_query()">
     <label>
     섭취음식
-    <input type="text" name="food" value="사과">
+    <input type="text" name="food">
     <br><br>
     섭취량(g)
-    <input type="text" name="amount" value="100">
+    <input type="text" name="amount">
     <br><br>
     </label>
     <button type="submit">계산</button>
