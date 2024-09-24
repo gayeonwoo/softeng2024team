@@ -1,6 +1,6 @@
 # softeng2024team
 
-# hw03
+## hw03
 hw03_01_oddeven_gui.py  
 : 홀수, 짝수 판별함수를 만들어 판별프로그램을 gui에 구현  
 hw03_02_temptoconv_gui.py  
@@ -14,7 +14,7 @@ hw03_05_factorial_gui.py
 hw03_06_sum100_gui.py  
 : 짝수판별함수를 만들어 짝수들의 합 계산을 gui에 구현  
 
-# hw04
+## hw04
 hw04_01_recall_html.py  
 : 수업 내용 복습  
 hw04_02_recall_api.py  
@@ -26,6 +26,6 @@ hw04_03_kcal_api.py
 *정보가 없는 음식을 입력할 경우  
 ![127 0 0 1_5000 - Chrome 2024-09-21 오전 1_14_29](https://github.com/user-attachments/assets/e684da8c-73ea-4b57-9dec-fbdc51bc36c6)  
 
-# hw05
+## hw05
 라즈베리파이 세팅
-: hello.py 쳤을 때 hello, world! 나오게 구현
+: hello.py 세팅 hello, world! 나오게 구현
