@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Page</title>
+    <link href="./head.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="kcal_dic.js"></script>
+
+</head>
+<body>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="gyPage.html">Personal Page(Gayeon)</a>
+    <a href="gyPage.html">Personal Page(Kyungmun)</a>
+</nav>
+<br><br>
+    <h1>칼로리 계산기</h1>
+    <label for="food">섭취음식</label>
+    <input type="text" id="food">
+    <br><br>
+    <label for="amount">섭취량(g)</label>
+    <input type="text" id="amount">
+    <br><br>
+    <button type="submit" onclick="kcal()">계산</button>
+
+    <p><span id="results"></span></p>
+
+<script>
+
+
+    function find_kcal(food,amount) {
+        let total_kcal = 0
+        if (food in kcal_dic) {
+            total_kcal = parseFloat(kcal_dic[food]) / 100 * parseFloat(amount)
+            return total_kcal
+        } else {
+            return -1
+        }
+    }
+
+    function kcal(){
+        let food=document.getElementById('food');
+        let amount=document.getElementById('amount');
+        let find=find_kcal(food,amount);
+        if (find==-1) {
+            document.getElementById("results").innerHTML =`${food}의 열량 정보가 없습니다`;
+        } else {
+            document.getElementById("results").innerHTML = `${food} ${amount}g : ${find}kcal`;
+        }
+        }
+</script>
+</body>
+</html>
