@@ -8,10 +8,10 @@ def index():
 
 @app.route('/gyPage')
 def gy():
-    return render_template('gyPage.html')
+    return render_template('gyPage.html',title='gayeon Page')
 
 @app.route('/kmpage')
 def km():
-    return render_template('kmpage.html')
+    return render_template('kmpage.html',title='KyungMun')
 
 app.run(debug=True)

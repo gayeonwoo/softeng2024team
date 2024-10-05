@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {%if title%}
+    <title>{{title}}</title>
+    {%else%}
     <title>2024-2 응용소프트웨어 7조</title>
+    {%endif%}
     <link href="static/head.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -10,7 +14,7 @@
 <nav>
     <a href="/">Home</a>
     <a href="/gyPage">Personal Page(Gayeon)</a>
-    <a href="/kmPage">Personal Page(Kyungmun)</a>
+    <a href="/kmpage">Personal Page(Kyungmun)</a>
 </nav>
 
 <main role="main">
