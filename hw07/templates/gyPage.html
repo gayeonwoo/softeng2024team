@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>gayeon Page</title>
-    <link href="./head.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="send_message.js"></script>
-</head>
-<body>
-<nav>
-    <a href="index.html">Home</a>
-    <a href="gyPage.html">Personal Page(Gayeon)</a>
-    <a href="kmpage.html">Personal Page(Kyungmun)</a>
-</nav>
+{%extends 'layout.html'%}
+
+{%block content%}
+<script type="text/javascript" src="send_message.js"></script>
+
 <br><br>
 <h1>About me</h1>
 <h3>우가연 / Gayeon Woo</h3>
@@ -21,6 +12,4 @@
 <h1>Contact</h1>
 <p>Email : 202310082@jbnu.ac.kr</p>
 <img src="./images/star.jpg" width="30%" align="right" onclick="message()">
-
-</body>
-</html>
+{%endblock%}
