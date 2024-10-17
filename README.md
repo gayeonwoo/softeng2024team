@@ -29,3 +29,12 @@ hw04_03_kcal_api.py
 ## hw05
 라즈베리파이 세팅
 : hello.py 세팅 hello, world! 나오게 구현
+
+## hw06
+index.html  
+: 메인 페이지  
+gyPage.html & kmpage.html  
+: 개인 홈페이지 
+
+## hw07
+기존 페이지를 flask를 사용하여 구조화
