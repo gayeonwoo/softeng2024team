@@ -20,7 +20,7 @@ def gy():
 
 @app.route('/kmpage')
 def km():
-    df = pd.read_csv("kmdata.csv")
+    df = pd.read_csv("static/kmdata.csv")
     post_list = df.to_dict(orient='records')
     print(post_list)
     return render_template('kmpage.html',title='KyungMun', posts=post_list)
