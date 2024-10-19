@@ -9,7 +9,14 @@ def index():
 
 @app.route('/gyPage')
 def gy():
-    return render_template('gyPage.html',title='gayeon Page')
+    df=pd.read_csv("static/gydata.csv")
+    post_list=[]
+    for i, row in df.iterrows():
+        post_list.append({
+            "title":row["title"],
+            "content":row["content"]
+        })
+    return render_template('gyPage.html',title='gayeon Page', posts=post_list)
 
 @app.route('/kmpage')
 def km():
