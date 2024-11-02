@@ -1,0 +1,41 @@
+{%extends 'layout.html'%}
+{% load static %}
+{% block title %}송경문 홈페이지{% endblock%}
+{%block content%}
+<br>
+<div class="text-left">
+    <h1 class="mb-3">송경문 / Song Kyung Mun</h1>
+    <h2 class="mb-4">전북대학교 스마트팜학과 23학번</h2>
+    <p class="lead">응용소프트웨어개발 홈페이지 만들기</p>
+    <a href="https://github.com/SongKM2" target="_blank" class="btn btn-primary">Github</a>
+    <hr>
+    <img src="{% static 'single_pages/images/kmimage.jpg' %}" class="img-fluid rounded" alt="Profile Image" style="max-height: 200px;">
+    <hr>
+</div>
+<div class="mt-5">
+        <h2>Blog</h2>
+{% if posts|length > 0 %}
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">제목: {{ post.title }}</h5>
+                            <p class="card-text">내용: {{ post.content }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">아직 작성하지 않았습니다.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<h1>Contact</h1>
+<p>Email : songky040802@jbnu.ac.kr</p>
+
+<a href="{% url 'single_pages:landing' %}" class="btn btn-secondary">첫 화면으로 가기</a>
+{%endblock%}
