@@ -1,0 +1,15 @@
+{%extends './single_pages/layout.html'%}
+{%load static%}
+
+{%block content%}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To-Do Lists</title>
+
+<div>
+    <h1 onclick="location.href='{% url "todo" %}'">To-do Lists</h1>
+</div>
+<div>
+  {% block content_todo %}{% endblock %}
+</div>
+
+{%endblock%}
