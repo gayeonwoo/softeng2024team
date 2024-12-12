@@ -1,0 +1,13 @@
+import time
+import picamera
+
+# 카메라 객체 생성
+with picamera.PICamera() as camera:
+    camera.resolution = (640, 480)  # 해상도 설정
+    camera.start_preview()
+
+    # 10초 동안 실시간 영상 표시
+    time.sleep(10)
+
+    # 카메라 종료
+    camera.stop_preview()
