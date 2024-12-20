@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Memo</title>
+</head>
+<body>
+  <h2>Edit Memo</h2>
+
+  <!-- 메모 수정 폼 -->
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- 자동으로 폼을 렌더링 합니다. -->
+    <form action="" method="get">
+      <button type="submit">Submit</button>
+    </form>
+  </form>
+
+  <br>
+
+</body>
+</html>

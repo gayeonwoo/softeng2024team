@@ -1,0 +1,70 @@
+{%extends './layout.html'%}
+{%load static%}
+
+{%block content%}
+<title>Blog</title>
+<!-- Page header with logo and tagline-->
+<header class="py-5 bg-light border-bottom mb-4">
+  <div class="container">
+    <div class="text-center my-5">
+      <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+      <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p></div>
+  </div>
+</header>
+
+<!-- Page content-->
+<div class="container">
+  <div class="row">
+    <!-- Blog entries-->
+      <!-- Nested row for non-featured blog posts-->
+        <div class="col-lg-8">
+          <!-- Blog post-->
+          <h1>Blog
+            {%if category%}<span class="badge badge-secondary">{{category}}</span>{%endif%}
+            {%if tag%}<span class="badge badge-light"><i class="fas fa-tags"></i>{{tag}} {{tag.post_set.count}}</span>{%endif%}
+
+            {%if user.is_authenticated%}
+            {%if user.is_superuser or user.is_staff%}
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post/" role="button">
+              <i class="fas fa-pen"></i>&nbsp;&nbsp;New Post
+            </a>
+            {%endif%}
+            {%endif%}
+          </h1>
+          {%for p in post_list%}
+          <div class="card mb-4" id="post-({{p.pk}})">
+            {%if p.head_image%}
+            <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}}head image">
+            {%else%}
+            <img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/800/200" alt="random_image">
+            {% endif%}
+            <div class="card-body">
+              {% if p.category%}
+                <div style="text-align: right;">
+                  <span class="badge badge-secondary">{{ p.category }}</span>
+                </div>
+              {%else%}
+                <div style="text-align: right;">
+                  <span class="badge badge-secondary">미분류</span>
+                </div>
+              {%endif%}
+              <h2 class="card-title">{{p.title}}</h2>
+              <div class="small text-muted">{{p.created_at}}  by
+                <a>{{p.author | upper}}</a>
+              </div>
+              <p class="card-text">>{{p.content|truncatewords:45}}</p>
+              {%if p.tags.exists%}
+              <i class="fas fa-tags"></i>
+              {%for tag in p.tags.iterator%}
+              <a href="{{tag.get_absolute_url}}"><span class="badge badge-pill badge-light">{{tag}}</span></a>
+              {%endfor%}
+              <br/>
+              <br/>
+              {%endif%}
+              <a class="btn btn-primary" href="{{p.get_absolute_url}}">Read more →</a>
+            </div>
+          </div>
+          {%endfor%}
+        </div>
+
+  {%endblock%}
