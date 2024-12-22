@@ -11,7 +11,7 @@ C2 = 36
 C3 = 38
 C4 = 40
 
-GPIO.setwarning(False)
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(R1, GPIO.OUT)
