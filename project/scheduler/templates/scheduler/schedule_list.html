@@ -1,6 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
+{%extends './layout.html'%}
+{%load static%}
+
+{%block content%}
+
     <title>Scheduler</title>
     <!-- jQuery (FullCalendar 의존성) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,12 +22,17 @@
             margin: 30px auto;
         }
     </style>
-</head>
-<body>
-    <h1>Event Calendar</h1>
-    <div id="calendar"></div>
 
-    <button><a href="{% url 'add_schedule' %}">Add Event</a></button>
+<div class="card-body">
+    <h1>Event Calendar</h1>
+</div>
+
+<div class="card-body">
+    <div id="calendar"></div>
+    <a href="{% url 'add_schedule' %}" class="btn btn-light btn-icon-split">
+      <span class="text">Add Event</span>
+    </a>
+</div>
 
     <script>
         $(document).ready(function() {
@@ -59,5 +66,5 @@
             });
         });
     </script>
-</body>
-</html>
+
+{%endblock%}

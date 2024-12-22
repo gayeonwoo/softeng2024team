@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Memo</title>
-</head>
-<body>
-  <h2>Edit Memo</h2>
+{%extends './layout.html'%}
+{%load static%}
 
-  <!-- 메모 수정 폼 -->
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- 자동으로 폼을 렌더링 합니다. -->
-    <form action="" method="get">
-      <button type="submit">Submit</button>
+{%block content%}
+
+<title>Edit Memo</title>
+
+<div class="card-body">
+  <div class="card-body">
+    <h2>Edit Memo</h2>
+  </div>
+
+  <div class="card-body">
+    <!-- 메모 수정 폼 -->
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}  <!-- 자동으로 폼을 렌더링 합니다. -->
+      <a href="" class="btn btn-success btn-icon-split" type="submit">
+        <button type="submit">Submit</button>
+      </a>
+    <br>
     </form>
-  </form>
+  </div>
+</div>
 
-  <br>
-
-</body>
-</html>
+{%endblock%}
