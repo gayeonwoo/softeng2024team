@@ -1,4 +1,4 @@
-import RPi, GRID as GPID
+import RPi.GPIO as GPIO
 import time
 
 R1 = 29
@@ -11,30 +11,30 @@ C2 = 36
 C3 = 38
 C4 = 40
 
-GRID.setwarning(False)
-GRID.setmode(GPID.BOARD)
+GPIO.setwarning(False)
+GPIO.setmode(GPIO.BOARD)
 
-GRID.setup(R1, GRID.OUT)
-GRID.setup(R2, GRID.OUT)
-GRID.setup(R3, GRID.OUT)
-GRID.setup(R4, GRID.OUT)
+GPIO.setup(R1, GPIO.OUT)
+GPIO.setup(R2, GPIO.OUT)
+GPIO.setup(R3, GPIO.OUT)
+GPIO.setup(R4, GPIO.OUT)
 
-GRID.setup(C1, GRID.IN, pull_up_down=GRID.PUD_DOWN)
-GRID.setup(C2, GRID.IN, pull_up_down=GRID.PUD_DOWN)
-GRID.setup(C3, GRID.IN, pull_up_down=GRID.PUD_DOWN)
-GRID.setup(C4, GRID.IN, pull_up_down=GRID.PUD_DOWN)
+GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def printCharacter(row, character):
-    GPID.output(row, GPID.HIGH)
-    if(GPID.input(C1) == 1):
+    GPIO.output(row, GPIO.HIGH)
+    if(GPIO.input(C1) == 1):
         print(character[0])
-    if(GPID.input(C2) == 1):
+    if(GPIO.input(C2) == 1):
         print(character[1])
-    if(GPID.input(C3) == 1):
+    if(GPIO.input(C3) == 1):
         print(character[2])
-    if(GPID.input(C4) == 1):
+    if(GPIO.input(C4) == 1):
         print(character[3])
-    GPID.output(row, GPID.LOW)
+    GPIO.output(row, GPIO.LOW)
 
 try:
     while True:
