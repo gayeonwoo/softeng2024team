@@ -1,0 +1,23 @@
+{%extends './layout.html'%}
+{%load static%}
+
+{%block content%}
+
+<title>Edit Schedule</title>
+
+<div class="card-body">
+    <div class="card-body">
+        <h1>Edit Schedule</h1>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+        </form>
+        <a href="{% url 'schedule_list' %}">Cancel</a>
+    </div>
+</div>
+
+{%endblock%}

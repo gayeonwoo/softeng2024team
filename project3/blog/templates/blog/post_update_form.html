@@ -1,0 +1,21 @@
+{%extends 'blog/layout_full_width.html'%}
+<title>Edit Post - Blog</title>
+
+{%block content%}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1>Create New Post</h1>
+            <hr/>
+            <form method="post" enctype="multipart/form-data">{%csrf_token%} <!--사이트 보호-->
+                <table>
+                    {{form}}
+                    <tr>
+                        <th><label for="id_tags_str">Tags:</label></th>
+                        <td><input type="text" name="tags_str" id="id_tags_str" value="{{tags_str_default}}"> </td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-primary float-right">Submit</button>
+            </form>
+        </div>
+{%endblock%}

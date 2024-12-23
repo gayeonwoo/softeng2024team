@@ -1,0 +1,74 @@
+{%extends './layout.html'%}
+{%load static%}
+
+{%block content%}
+
+<title>Management Page</title>
+
+        <div class="card-body">
+          <div class="card mb-4 py-3 border-left-info">
+            <div class="card-body">
+              {% if camera_stream %}
+                <img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 25%);" src="http://113.198.63.27:20750/monitor" width="526" height="394">
+              {% else %}
+                <p>카메라가 작동하지 않습니다.</p>
+              {% endif %}
+            </div>
+          </div>
+        <div class="card-body">
+          <h5>출입자 알림</h5>
+          <div class="card mb-4 py-3 border-left-info">
+            <div class="card-body">
+              {% for notification in notifications %}
+                  <li>{{ notification }}</li>
+              {% empty %}
+                  <li>입장 알림이 없습니다.</li>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="card mb-4 py-3 border-left-info">
+            <div class="card-body">
+            {% if weather_alert %}
+              <p>{{ weather_alert }}</p>
+            {% else %}
+              <p>기상 특보가 없습니다.</p>
+            {% endif %}
+            </div>
+          </div>
+
+
+          <div class="card mb-4 py-3 border-left-info">
+            <div class="card-body">
+
+            {% if memo %}
+              <p>{{ memo.content }}</p>
+            {% else %}
+              <p>메모가 없습니다.</p>
+            {% endif %}
+
+            <a href="edit/" class="btn btn-light btn-icon-split">
+              <span class="text">Edit Memo</span>
+            </a>
+
+            </div>
+          </div>
+
+          <div class="card mb-4 py-3 border-left-info">
+            <div class="card-body">
+            <ul>
+            {% for schedule in schedules %}
+              <li>{{ schedule.title }} - {{ schedule.start_time|date:"Y-m-d H:i" }}</li>
+            {% empty %}
+              <li>오늘의 일정이 없습니다.</li>
+            {% endfor %}
+            </ul>
+            </div>
+          </div>
+
+        </div>
+
+{%endblock%}
