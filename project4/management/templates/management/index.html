@@ -8,18 +8,18 @@
         <div class="card-body">
           <div class="card mb-4 py-3 border-left-info">
             <div class="card-body">
-              {% if camera_stream %}
-                {{ camera_stream }}
-                <img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 25%);" src="http://113.198.63.27:20750/monitor" width="526" height="394">
-              {% else %}
-                <p>카메라가 작동하지 않습니다.</p>
-              {% endif %}
-            </div>
+              <div style="display: flex; justify-content: space-between;">
+                
+                <div style="flex: 1;">
+                  <img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 25%);" src="http://113.198.63.27:20750/monitor" width="526" height="394">
+                </div>
 
-            <div class="card-body">
-            <!--출입자 알림-->
-              <h1> 온실 출입 관리 시스템</h1>
-              {{ alarm }}
+                <div style="flex: 1; text-align: right;">
+                  <!--출입자 알림-->
+                  <h1>온실 출입 관리 시스템</h1>
+                  <p>{{ alarm }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
