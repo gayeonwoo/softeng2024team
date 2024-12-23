@@ -1,48 +1,45 @@
-import RPi.GPIO as GPIO
-import time
+from gpiozero import DigitalOutputDevice, DigitalInputDevice
+from time import sleep
 
-R1 = 29
-R2 = 31
-R3 = 33
-R4 = 35
+# Row pins as outputs
+R1 = DigitalOutputDevice(29)
+R2 = DigitalOutputDevice(31)
+R3 = DigitalOutputDevice(33)
+R4 = DigitalOutputDevice(35)
 
-C1 = 32
-C2 = 36
-C3 = 38
-C4 = 40
+# Column pins as inputs with pull-down resistors
+C1 = DigitalInputDevice(32, pull_up=False)
+C2 = DigitalInputDevice(36, pull_up=False)
+C3 = DigitalInputDevice(38, pull_up=False)
+C4 = DigitalInputDevice(40, pull_up=False)
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-
-GPIO.setup(R1, GPIO.OUT)
-GPIO.setup(R2, GPIO.OUT)
-GPIO.setup(R3, GPIO.OUT)
-GPIO.setup(R4, GPIO.OUT)
-
-GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-def printCharacter(row, character):
-    GPIO.output(row, GPIO.HIGH)
-    if(GPIO.input(C1) == 1):
-        print(character[0])
-    if(GPIO.input(C2) == 1):
-        print(character[1])
-    if(GPIO.input(C3) == 1):
-        print(character[2])
-    if(GPIO.input(C4) == 1):
-        print(character[3])
-    GPIO.output(row, GPIO.LOW)
+def print_character(row_pin, characters):
+    """
+    Scans one row of the keypad and prints the corresponding character if a button is pressed
+    """
+    row_pin.on()  # Set row high
+    
+    # Check each column
+    if C1.value:
+        print(characters[0])
+    if C2.value:
+        print(characters[1])
+    if C3.value:
+        print(characters[2])
+    if C4.value:
+        print(characters[3])
+        
+    row_pin.off()  # Set row low
 
 try:
     while True:
-        printCharacter(R1, ["1", "2", "3", "A"])
-        printCharacter(R2, ["4", "5", "6", "B"])
-        printCharacter(R3, ["7", "8", "9", "C"])
-        printCharacter(R4, ["*", "0", "#", "D"])
-        time.sleep(0.1)
+        # Scan each row
+        print_character(R1, ["1", "2", "3", "A"])
+        print_character(R2, ["4", "5", "6", "B"])
+        print_character(R3, ["7", "8", "9", "C"])
+        print_character(R4, ["*", "0", "#", "D"])
+        sleep(0.1)
+        
 except KeyboardInterrupt:
     print("Stopped")
-
+    # GPIO Zero automatically cleans up pins on program exit
