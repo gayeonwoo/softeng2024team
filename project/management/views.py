@@ -1,7 +1,7 @@
 import requests
 from django.utils import timezone
 from scheduler.models import Schedule
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from .models import Memo
@@ -17,17 +17,12 @@ class PostUpdate(UpdateView):
         """ 수정할 Memo 객체를 가져오는 메서드 """
         return Memo.objects.first()  # 첫 번째 Memo 객체 (하나만 존재한다고 가정)
 
-def show_schedule(request):
-    today = timezone.now().date()
-
-    # 오늘 일정만 필터링 (start_time이 오늘인 일정)
-    schedules = Schedule.objects.filter(start_time__date=today)
-
-    # 템플릿으로 전달
-    return render(request, 'management/index.html', {'schedules': schedules})
-
 
 def weather_warning(request):
+    if not request.user.is_authenticated:
+        # 로그인하지 않은 사용자가 접근하면 이전 페이지로 리디렉션
+        referer = request.META.get('HTTP_REFERER', '/')  # 이전 페이지 URL을 가져옴
+        return redirect(referer)
     # 기상 특보가 있는 URL
     URL = "https://www.weatheri.co.kr/forecast/forecast01.php?rid=0801030101&k=6&a_name=%EC%A0%84%EC%A3%BC"
 
@@ -49,8 +44,13 @@ def weather_warning(request):
 
         memo = Memo.objects.first()
 
+        today = timezone.now().date()
+
+        # 오늘 일정만 필터링 (start_time이 오늘인 일정)
+        schedules = Schedule.objects.filter(start_time__date=today)
+
     return render(
         request,
         'management/index.html',
-        {'weather_alert': weather_alert,'memo': memo}
+        {'weather_alert': weather_alert,'memo': memo, 'schedules': schedules}
     )
