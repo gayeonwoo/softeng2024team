@@ -51,18 +51,20 @@ def weather_warning(request):
 
         # 오늘 일정만 필터링 (start_time이 오늘인 일정)
         schedules = Schedule.objects.filter(start_time__date=today)
-        filename = './people.csv'
 
-        with open(filename, encoding="utf-8-sig") as f:
 
-            alarm = ''
-            lines = f.readlines()
-            for line in lines[0:2]:
-                alarm += (str(line.split("/")[1]) + '<br>')
+        filename = '/home/raspberrypi/people.csv'
+
+        while ():
+            with open(filename, encoding="utf-8-sig") as f:
+                lines = f.readlines()
+                alarm1 = lines[-1].split("/")[1]
+                alarm2 = lines[-2].split("/")[1]
+                alarm3 = lines[-3].split("/")[1]
 
 
     return render(
         request,
         'management/index.html',
         {'camera_stream': camera_stream, 'weather_alert': weather_alert, 'memo': memo, 'schedules': schedules,
-         'alarm': alarm, })
+         'alarm1': alarm1, 'alarm2': alarm2, 'alarm3': alarm3, })
