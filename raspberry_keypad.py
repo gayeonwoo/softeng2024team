@@ -73,7 +73,7 @@ class Keypad:
                         user_data = self.verify_user()
                         if user_data:
                             # 서버에 요청 보내기
-                            response = requests.post("http://127.0.0.1:8000/greenhouse/access/", data=user_data)
+                            response = requests.post("http://127.0.0.1:8000/management/", data=user_data)
                             print(response.text)  # 서버로부터 받은 응답 출력
                         self.current_input = ""  # 입력 초기화
                 sleep(0.2)  # 디바운싱
