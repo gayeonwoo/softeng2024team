@@ -1,0 +1,21 @@
+{%extends './layout.html'%}
+{%load static%}
+
+{%block content%}
+
+<title>Delete Schedule</title>
+
+<div class="card-body">
+    <div class="card-body">
+        <h1>Are you sure you want to delete the schedule: {{ schedule.title }}?</h1>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, Delete</button>
+        </form>
+        <a href="{% url 'schedule_list' %}">Cancel</a>
+    </div>
+</div>
+{%endblock%}
