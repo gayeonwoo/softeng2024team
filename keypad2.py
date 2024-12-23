@@ -1,69 +1,106 @@
-import RPi.GPIO as GPIO
-import time
+from gpiozero import DigitalOutputDevice, DigitalInputDevice
+from time import sleep
+from datetime import datetime
+import json
 
-# 4x4 키패드 매트릭스 구성
-matrix_keys = [['1', '2', '3', 'A'],
-               ['4', '5', '6', 'B'],
-               ['7', '8', '9', 'C'],
-               ['*', '0', '#', 'D']]
+# Row and Column pins setup
+R1 = DigitalOutputDevice(29)
+R2 = DigitalOutputDevice(31)
+R3 = DigitalOutputDevice(33)
+R4 = DigitalOutputDevice(35)
 
-keypad_rows = [9, 8, 7, 6]  # ROW 핀 번호
-keypad_columns = [5, 4, 3, 2]  # COL 핀 번호
-row_pins = []
-col_pins = []
+C1 = DigitalInputDevice(32, pull_up=False)
+C2 = DigitalInputDevice(36, pull_up=False)
+C3 = DigitalInputDevice(38, pull_up=False)
+C4 = DigitalInputDevice(40, pull_up=False)
 
-# 비밀번호 입력값을 저장할 임시 변수
-guess = []
-# 잠금 비밀번호 (6자리)
-secret_pin = ['1', '2', '3', '4', '5', '6']
-# 비밀번호 성공시 LED On (15번 핀 사용)
-led = 15
+# 허가된 사용자 데이터 (실제로는 데이터베이스나 파일에서 로드해야 함)
+AUTHORIZED_USERS = {
+    "123456789": {"name": "김철수", "role": "관리자"},
+    "234567890": {"name": "이영희", "department": "재배담당"},
+    "345678901": {"name": "박지성", "department": "품질관리"}
+}
 
-# GPIO 설정
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(led, GPIO.OUT)
+class GreenhouseAccess:
+    def __init__(self):
+        self.current_input = ""
+        self.log_file = "greenhouse_access_log.txt"
+    
+    def scan_keypad(self, row_pin, characters):
+        """키패드의 한 행을 스캔하고 눌린 키를 반환"""
+        row_pin.on()
+        pressed_key = None
+        
+        if C1.value:
+            pressed_key = characters[0]
+        elif C2.value:
+            pressed_key = characters[1]
+        elif C3.value:
+            pressed_key = characters[2]
+        elif C4.value:
+            pressed_key = characters[3]
+            
+        row_pin.off()
+        return pressed_key
+    
+    def get_pressed_key(self):
+        """모든 행을 스캔하여 눌린 키를 확인"""
+        keys = [
+            self.scan_keypad(R1, ["1", "2", "3", "A"]),
+            self.scan_keypad(R2, ["4", "5", "6", "B"]),
+            self.scan_keypad(R3, ["7", "8", "9", "C"]),
+            self.scan_keypad(R4, ["*", "0", "#", "D"])
+        ]
+        return next((key for key in keys if key is not None), None)
+    
+    def log_access(self, user_id, status):
+        """출입 기록을 로그 파일에 저장"""
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        user_info = AUTHORIZED_USERS.get(user_id, {"name": "Unknown"})
+        log_entry = f"{timestamp} - ID: {user_id} - 이름: {user_info['name']} - 상태: {status}\n"
+        
+        with open(self.log_file, "a") as f:
+            f.write(log_entry)
+    
+    def verify_user(self):
+        """사용자 ID 확인 및 접근 권한 검증"""
+        if len(self.current_input) == 9:  # 9자리 입력 완료
+            if self.current_input in AUTHORIZED_USERS:
+                user = AUTHORIZED_USERS[self.current_input]
+                print(f"\n접근 승인!")
+                print(f"이름: {user['name']}")
+                print(f"부서: {user.get('department', '정보 없음')}")
+                print(f"역할: {user.get('role', '일반')}")
+                self.log_access(self.current_input, "접근 승인")
+            else:
+                print("\n접근 거부: 등록되지 않은 사용자")
+                self.log_access(self.current_input, "접근 거부")
+            
+            self.current_input = ""  # 입력 초기화
+            print("\n새로운 ID를 입력하세요:")
+    
+    def run(self):
+        """메인 실행 루프"""
+        print("온실 출입 관리 시스템")
+        print("9자리 ID를 입력하세요:")
+        
+        try:
+            while True:
+                key = self.get_pressed_key()
+                if key:
+                    if key in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                        self.current_input += key
+                        print("*", end="", flush=True)  # 보안을 위해 * 표시
+                    elif key == "#":  # # 키를 누르면 입력 초기화
+                        self.current_input = ""
+                        print("\n입력이 초기화되었습니다. 다시 입력하세요:")
+                    
+                    self.verify_user()
+                sleep(0.2)  # 디바운싱을 위한 지연
+                
+        except KeyboardInterrupt:
+            print("\n시스템을 종료합니다.")
 
-# ROW 핀 설정
-for x in range(4):
-    row_pins.append(keypad_rows[x])
-    GPIO.setup(row_pins[x], GPIO.OUT)
-    GPIO.output(row_pins[x], GPIO.HIGH)
-
-# COL 핀 설정
-for x in range(4):
-    col_pins.append(keypad_columns[x])
-    GPIO.setup(col_pins[x], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-# 키패드 입력 함수
-def scankeys():
-    global guess
-    for row in range(4):
-        GPIO.output(row_pins[row], GPIO.LOW)  # 현재 row를 LOW로 설정하여 활성화
-        for col in range(4):
-            if GPIO.input(col_pins[col]) == GPIO.HIGH:  # 버튼이 눌렸는지 확인
-                key = matrix_keys[row][col]
-                print("You have pressed:", key)
-                time.sleep(0.3)  # 디바운싱
-                guess.append(key)  # 입력값 저장
-                if len(guess) == 6:  # 6자리 비밀번호 입력 완료
-                    checkPin(guess)
-                    guess = []  # 비밀번호 입력 초기화
-        GPIO.output(row_pins[row], GPIO.HIGH)  # current row를 다시 HIGH로 설정
-
-# 입력한 번호 체크 함수
-def checkPin(guess):
-    if guess == secret_pin:
-        print("문열림")
-        GPIO.output(led, GPIO.HIGH)  # LED를 켜서 잠금 장치를 열도록 할 수 있습니다.
-        time.sleep(3)
-        GPIO.output(led, GPIO.LOW)  # LED를 끄기
-    else:
-        print("비번틀림")
-
-# 프로그램 시작
-print("비밀번호 6자리 입력")
-try:
-    while True:
-        scankeys()
-finally:
-    GPIO.cleanup()  # 프로그램 종료 시 GPIO 핀 정리
+if __name__ == "__main__":
+    access_system = GreenhouseAccess()
+    access_system.run()
